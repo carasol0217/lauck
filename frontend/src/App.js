@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AuthClient } from '@dfinity/auth-client';
 import AudioRecorder from './components/AudioRecorder';
 import BlockchainVerification from './components/BlockchainVerification';
+import Contacts from './components/Contacts';
 
 function App() {
   const [authClient, setAuthClient] = useState(null);
@@ -52,6 +53,7 @@ function App() {
           <Link to="/">Home</Link>
           <Link to="/record">Record Audio</Link>
           <Link to="/verify">Verify on Blockchain</Link>
+          <Link to="/contacts">Contacts</Link>
           <Link to="/settings">Settings</Link>
         </nav>
         <div className="content">
@@ -74,6 +76,7 @@ function App() {
             />
             <Route path="/record" element={<AudioRecorder principal={principal} />} />
             <Route path="/verify" element={<BlockchainVerification />} />
+            <Route path="/contacts" element={<Contacts principal={principal} />} />
           </Routes>
         </div>
       </div>
