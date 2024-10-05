@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AuthClient } from '@dfinity/auth-client';
+import AudioRecorder from './components/AudioRecorder';
+import BlockchainVerification from './components/BlockchainVerification';
 
 function App() {
   const [authClient, setAuthClient] = useState(null);
@@ -42,17 +46,38 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <h1>Internet Identity Authentication</h1>
-      {isAuthenticated ? (
-        <>
-          <p>Logged in as {principal}</p>
-          <button onClick={logout}>Logout</button>
-        </>
-      ) : (
-        <button onClick={login}>Login with Internet Identity</button>
-      )}
-    </div>
+    <Router>
+      <div className="app">
+        <nav className="navbar">
+          <Link to="/">Home</Link>
+          <Link to="/record">Record Audio</Link>
+          <Link to="/verify">Verify on Blockchain</Link>
+          <Link to="/settings">Settings</Link>
+        </nav>
+        <div className="content">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <h1>Internet Identity Authentication</h1>
+                  {isAuthenticated ? (
+                    <>
+                      <p>Logged in as {principal}</p>
+                      <button onClick={logout}>Logout</button>
+                    </>
+                  ) : (
+                    <button onClick={login}>Login with Internet Identity</button>
+                  )}
+                </>
+              }
+            />
+            <Route path="/record" element={<AudioRecorder />} />
+            <Route path="/verify" element={<BlockchainVerification />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 

@@ -48,3 +48,60 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.verification-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #007bff;
+}
+
+p {
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+/* App.css */
+
+.audio-recorder-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.start-recording, .stop-recording {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start-recording {
+  background-color: #4CAF50;
+}
+
+.stop-recording {
+  background-color: #ff4444;
+}
+
+.start-recording:disabled, .stop-recording:disabled {
+  cursor: not-allowed;
+}
+
+.audio-preview {
+  margin-top: 20px;
+}
+
+.ipfs-hash {
+  margin-top: 20px;
+  word-break: break-all;
+}
+
+p {
+  font-size: 18px;
+}
