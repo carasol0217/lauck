@@ -1,0 +1,9 @@
+type Contact = 
+ record {
+   name: text;
+   phone: text;
+ };
+service : {
+  addContact: (principal, Contact) -> ();
+  getContacts: (principal) -> (opt vec Contact) query;
+}

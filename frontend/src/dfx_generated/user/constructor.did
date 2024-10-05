@@ -1,0 +1,6 @@
+type Phone = text;
+type Name = text;
+service : {
+  insert: (Name, Phone) -> ();
+  lookup: (Name) -> (opt Phone) query;
+}

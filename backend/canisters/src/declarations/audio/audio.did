@@ -1,0 +1,10 @@
+type AudioFile = 
+ record {
+   data: blob;
+   id: nat;
+   owner: principal;
+ };
+service : {
+  getAudio: (nat) -> (opt AudioFile);
+  upload: (blob) -> (nat);
+}
