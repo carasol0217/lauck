@@ -1,7 +1,7 @@
 {
     "canisters": {
       "main": {
-        "main": "src/main.mo",
+        "main": "src/user.mo",
         "type": "motoko"
       },
       "audio": {
@@ -11,15 +11,15 @@
       "user": {
         "main": "src/user.mo",
         "type": "motoko"
-      },
-      "networks": {
-        "ic": {
-          "providers": [
-            "https://ic0.app"
-          ],
-          "type": "persistent"
-        }
-    } 
+      }
+    },
+    "networks": {
+      "ic": {
+        "providers": [
+          "https://ic0.app"
+        ],
+        "type": "persistent"
+      }
+    }
   }
-}
   
