@@ -1,21 +1,36 @@
-import Map "mo:base/HashMap";
-import Text "mo:base/Text";
+import HashMap "mo:base/HashMap";
+import Principal "mo:base/Principal";
+import Array "mo:base/Array";
 
-actor {
+actor UserCanister {
 
-  type Name = Text;
-  type Phone = Text;
-
-  // The phonebook will map a name to a phone number
-  let phonebook = Map.HashMap<Name, Phone>(0, Text.equal, Text.hash);
-
-  // Insert a new entry into the phonebook (Name and Phone)
-  public func insert(name: Name, phone: Phone): async () {
-    phonebook.put(name, phone);  // Store the phone number under the given name
+  // Define the Contact type with name and phone number
+  type Contact = {
+    name: Text;
+    phone: Text;
   };
 
-  // Look up a phone number by name
-  public query func lookup(name: Name): async ?Phone {
-    phonebook.get(name);  // Return the phone
+  // Initialize an empty HashMap for contacts
+  var contacts: HashMap.HashMap<Principal, [Contact]> = HashMap.HashMap<Principal, [Contact]>(0, Principal.equal, Principal.hash);
+
+  // Add a new contact for the given user (Principal)
+  public func addContact(user: Principal, newContact: Contact): async () {
+    let existingContacts = contacts.get(user);
+    switch (existingContacts) {
+      case (?contactList) {
+        // Manually create a new array and append the new contact
+        let updatedContacts: [Contact] = Array.append(contactList, [newContact]);
+        contacts.put(user, updatedContacts);
+      };
+      case null {
+        // If the user has no contacts, create a new list with one contact
+        contacts.put(user, [newContact]);  // Initialize with the new contact
+      };
+    };
   };
-};
+
+  // Get all contacts for the given user
+  public query func getContacts(user: Principal): async ?[Contact] {
+    return contacts.get(user);
+  };
+}
