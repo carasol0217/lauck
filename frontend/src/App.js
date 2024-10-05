@@ -72,7 +72,7 @@ function App() {
                 </>
               }
             />
-            <Route path="/record" element={<AudioRecorder />} />
+            <Route path="/record" element={<AudioRecorder principal={principal} />} />
             <Route path="/verify" element={<BlockchainVerification />} />
           </Routes>
         </div>
