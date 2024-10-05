@@ -9,19 +9,30 @@ actor audio {
     type AudioFile = {
         id: Nat;          // Unique identifier for the audio file
         data: Blob;       // Audio data, stored in binary format (Blob)
-        owner: Principal; // The owner of the audio file, represented as a Principal (user identity)
+        owner: Principal;
+        signature: Text;
+        publicKey: Text; 
     };
 
     // Store audio files in an array
     var audios: [AudioFile] = [];
 
     // Function to upload an audio file
-    public shared(msg) func upload(audioData: Blob) : async Nat {
-        let audioId = Nat.add(Array.size(audios), 1); // Generate a unique ID for the new audio
-        let audioFile: AudioFile = { id = audioId; data = audioData; owner = msg.caller }; 
-        audios := Array.append(audios, [audioFile]); // Store the new audio in the array
-        return audioId; // Return the ID of the uploaded audio
+    public shared(msg)func upload(audioData: Blob, signature: Text, publicKey: Text) : async Nat {
+    // Validate the signature off-chain (can be done in the caller)
+    // Here you would normally verify the signature using the public key
+    let audioId = Nat.add(Array.size(audios), 1); // Generate a unique ID
+    let audioFile: AudioFile = { 
+        id = audioId; 
+        data = audioData; 
+        owner = msg.caller; 
+        signature = signature; // Bind the signature parameter
+        publicKey = publicKey; // Bind the public key parameter
     };
+    audios := Array.append(audios, [audioFile]); // Store the new audio in the array
+    return audioId; // Return the ID of the uploaded audio
+};
+
 
     // Function to retrieve an audio file by ID
     public func getAudio(id: Nat) : async ?AudioFile {
