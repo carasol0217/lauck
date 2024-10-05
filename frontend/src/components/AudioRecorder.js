@@ -8,32 +8,29 @@ const AudioRecorder = ({ principal }) => {
   const [isUploading, setIsUploading] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunks = useRef([]);
-  const [stream, setStream] = useState(null);  // Track the media stream for turning off the mic
+  const [stream, setStream] = useState(null); 
 
   const startRecording = async () => {
     try {
-      // Request microphone access
+      
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      setStream(stream);  // Store the media stream for later stopping
+      setStream(stream);  
 
-      // Create a new MediaRecorder instance
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
 
-      // Collect audio data as it's recorded
       mediaRecorder.ondataavailable = (event) => {
         audioChunks.current.push(event.data);
       };
 
-      // When the recording stops, create a Blob from the recorded audio
+      // create a Blob from the recorded audio
       mediaRecorder.onstop = () => {
         const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
-        setAudioBlob(audioBlob);  // Store the Blob for later upload or playback
-        audioChunks.current = []; // Reset chunks for the next recording
-        stopMicrophone();  // Stop the microphone when recording ends
+        setAudioBlob(audioBlob);  
+        audioChunks.current = []; // reset chunks for the next recording
+        stopMicrophone();  // stop the microphone when recording ends
       };
 
-      // Start recording
       mediaRecorder.start();
       setRecording(true);
     } catch (error) {
@@ -47,15 +44,15 @@ const AudioRecorder = ({ principal }) => {
       mediaRecorderRef.current.stop();
       setRecording(false);
     }
-    stopMicrophone(); // Ensure the microphone is stopped immediately after recording ends
+    stopMicrophone();
   };
   
 
   const stopMicrophone = () => {
     if (stream) {
-      // Stop all audio tracks to turn off the microphone
+      
       stream.getTracks().forEach(track => track.stop());
-      setStream(null);  // Clear the stream to prevent further use
+      setStream(null);  // clear the stream to prevent further use
     }
   };
 
@@ -68,25 +65,25 @@ const AudioRecorder = ({ principal }) => {
   };
 
   const discardRecording = () => {
-    // Discard the current recording
+    // discard the current recording
     setAudioBlob(null);
-    setIpfsHash('');  // Clear the IPFS hash if any
-    stopMicrophone();  // Ensure microphone is off
+    setIpfsHash('');  // clear the IPFS hash if any
+    stopMicrophone(); 
   };
 
   const uploadAudioToPinata = async () => {
     try {
       setIsUploading(true);
 
-      // Prepare the audio file for upload
+      // prepare the audio file for upload
       const formData = new FormData();
       formData.append('file', audioBlob, `audio-${new Date().toISOString()}.wav`);
 
-      // Pinata API keys from environment variables
+      // pinata API keys from environment variables
       const pinataApiKey = process.env.REACT_APP_PINATA_API_KEY;
       const pinataSecretApiKey = process.env.REACT_APP_PINATA_SECRET_API_KEY;
 
-      // Make the request to Pinata's PinFileToIPFS API
+      // make the request to Pinata's PinFileToIPFS API
       const response = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -95,7 +92,7 @@ const AudioRecorder = ({ principal }) => {
         },
       });
 
-      // Retrieve and display the IPFS hash
+      // retrieve and display the IPFS hash
       const hash = response.data.IpfsHash;
       setIpfsHash(hash);
       setIsUploading(false);
@@ -117,7 +114,7 @@ const AudioRecorder = ({ principal }) => {
 
     const ipfsHash = await uploadAudioToPinata();
     if (ipfsHash && principal) {
-      // Placeholder for sending hash to blockchain (Motoko canister)
+      // placeholder for sending hash to blockchain (Motoko canister)
       console.log(`Sending IPFS hash ${ipfsHash} to blockchain for principal: ${principal}`);
 
       // Future blockchain integration with Motoko will go here:
