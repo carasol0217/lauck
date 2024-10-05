@@ -11,7 +11,15 @@
       "user": {
         "main": "src/user.mo",
         "type": "motoko"
-      }
-    }
+      },
+      "networks": {
+        "ic": {
+          "providers": [
+            "https://ic0.app"
+          ],
+          "type": "persistent"
+        }
+    } 
   }
+}
   
