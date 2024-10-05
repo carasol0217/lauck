@@ -14,3 +14,12 @@ frontend/build/
 .dfx
 
 coverage/
+
+dfx_generated/
+
+backend/canisters/src/declarations/audio
+backend/canisters/src/declarations/main
+backend/canisters/src/declarations/user
+frontend/src/declarations/audio
+frontend/src/declarations/user
+frontend/src/declarations/main
