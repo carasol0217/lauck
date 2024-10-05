@@ -28,7 +28,7 @@ const AudioRecorder = () => {
       alert('Microphone access is required to record audio.');
     }
   };
-
+ // bruh
   const stopRecording = () => {
     if (!mediaRecorder) return;
 
