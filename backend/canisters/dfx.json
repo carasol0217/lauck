@@ -1,1 +1,17 @@
-
+{
+    "canisters": {
+      "main": {
+        "main": "src/main.mo",
+        "type": "motoko"
+      },
+      "audio": {
+        "main": "src/audio.mo",
+        "type": "motoko"
+     },
+     "user": {
+      "main": "src/user.mo",
+      "type": "motoko"
+    }
+    }
+  }
+  
